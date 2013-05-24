@@ -3,68 +3,131 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <EditText
-        android:id="@+id/edtQ"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/edtP"
-        android:layout_toLeftOf="@+id/btnAdd"
-        android:layout_toRightOf="@+id/btnEnd"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:text="1.5" >
-
-        <requestFocus />
-    </EditText>
-
-    <Button
-        android:id="@+id/btnAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/edtT"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:onClick="confirmAdd"
-        android:text="Add" />
-
-    <EditText
-        android:id="@+id/edtP"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/edtQ"
-        android:layout_toRightOf="@+id/btnEnd"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:text="40" />
-
-    <EditText
-        android:id="@+id/edtT"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/edtQ"
-        android:layout_toLeftOf="@+id/btnAdd"
-        android:layout_toRightOf="@+id/btnEnd"
-        android:ems="10"
-        android:inputType="number"
-        android:text="0" />
-
-    <ListView
-        android:id="@+id/lstHistory"
+    <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/btnAdd" >
-    </ListView>
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/btnEnd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/edtT"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="Finish" 
-        android:onClick="addEnd"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TimePicker
+                android:id="@+id/tmpT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btnAdd"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:onClick="confirmAdd"
+                android:text="Add" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" "
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.17"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/TextView01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.08"
+                    android:text="   How much?"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="   Alcohol %?     "
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <EditText
+                    android:id="@+id/edtP"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:text="40" >
+
+                    <requestFocus />
+                </EditText>
+
+            </LinearLayout>
+
+            <RadioGroup
+                android:id="@+id/rdgMeasure"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.17"
+                android:orientation="vertical" >
+
+                <RadioButton
+                    android:id="@+id/rdb35"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="One Shoot" />
+
+                <RadioButton
+                    android:id="@+id/rdb7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Two Shoot" />
+
+                <RadioButton
+                    android:id="@+id/rdb40"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A 0.4L Glass" />
+
+                <RadioButton
+                    android:id="@+id/rdb20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A 0.2L Glass" />
+
+                <RadioButton
+                    android:id="@+id/rdb50"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A 0.5L Glass" />
+
+                <RadioButton
+                    android:id="@+id/rdb100"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="One Liter" />
+            </RadioGroup>
+
+        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>

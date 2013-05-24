@@ -111,13 +111,6 @@ public class Drink implements Parcelable {
 	public float getTime() {
 		return t;
 	}
-	
-	/**
-	 * Returns a string containing information about the object.
-	 */
-	public String toString() {
-		return "q: " + this.getAq() + ", t: " + this.t; 
-	}
 
     @Override
     public void writeToParcel( Parcel out, int flags ) {
@@ -141,5 +134,20 @@ public class Drink implements Parcelable {
 	public int describeContents() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	/**
+	 * Returns a string containing information about the object.
+	 */
+	public String toString() {
+		String qt = this.q + "Cl";
+    	if ( q == 3.5f ) { qt = "One Shoot"; }
+    	if ( q == 7 ) { qt = "Two Shoot"; }
+    	if ( q == 20 ) { qt = "A 0.2L Glass"; }
+    	if ( q == 40 ) { qt = "A 0.4L Glass"; }
+    	if ( q == 50 ) { qt = "A 0.5L Glass"; }
+    	if ( q == 100 ) { qt = "One Liter"; }
+		String h = "[" + (int)(this.t-this.t%60)/60 + "." + (int)this.t%60 + "]"; 
+		return h + " " + qt + " of " + this.p*100 + "%";
 	}
 }

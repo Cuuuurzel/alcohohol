@@ -1,6 +1,7 @@
 package com.cuuuurzel.alcohohol;
 
-import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,22 +22,32 @@ public class MainActivity extends Activity {
 
 	final int ADD_DRINK_ACTIVITY = 0;
 	final int SETTINGS_ACTIVITY = 1;
+	final int HISTORY_ACTIVITY = 2;
 	
-	Liver l = new Liver();    
+	Liver l;    
+	
+	int startTime, endTime;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
+        this.viewHandler = new Handler();
+        this.l = new Liver();
+                
+        this.startTime = Calendar.getInstance( Locale.ITALY ).get( Calendar.HOUR )*60 + 
+        		         Calendar.getInstance( Locale.ITALY ).get( Calendar.MINUTE );
+        this.endTime = startTime + 180;    
         
-        viewHandler = new Handler();
-    	ppBAC = (PointPlotter) findViewById( R.id.ppBAC );
-        ppBAC.setZoom( 0, 300, 0, 3 );
+        //Paint object used by the plotter
         Paint p = new Paint();
         p.setColor( Color.BLACK );
         p.setStrokeWidth( 3 );
-        ppBAC.setPaint( p );    	
-    	this.drawBAC();
+        
+        //Plotter setup
+    	ppBAC = (PointPlotter) findViewById( R.id.ppBAC );
+        ppBAC.setPaint( p );
+        ppBAC.setZoom( this.startTime, this.endTime, 0, 3.0f );
     }
     
     /**
@@ -49,14 +60,15 @@ public class MainActivity extends Activity {
         			ppBAC.flush();
         			ppBAC.push( 0, 0.5f, ppBAC.getMaxX(), 0.5f );
         			float dt = 10f;
-        			for ( float time=0; time<300; time+=dt ) {
+
+	    			System.out.println( startTime + "   " + endTime );
+        			for ( float time=startTime; time<endTime; time+=dt ) {
         				ppBAC.push( time, l.alcohol(time), time+dt, l.alcohol(time+dt) );
         			}
     				ppBAC.invalidate();
         		}
         	}, 1 
-        );
-    	
+        );    	
     }
     
     /**
@@ -81,6 +93,18 @@ public class MainActivity extends Activity {
     	MainActivity.this.startActivityForResult( intentMain, SETTINGS_ACTIVITY );
     }
     
+    /**
+     * Called when the user wants to check the drinks list.
+     */
+    public void showHistory( View view ) {
+    	Intent intentMain = new Intent( 
+    			                        MainActivity.this, 
+                						HistoryActivity.class 
+                				      );
+    	intentMain.putExtra( "drinks", this.l.drinks );
+    	MainActivity.this.startActivityForResult( intentMain, HISTORY_ACTIVITY );
+    }
+    
     @Override
     public void onActivityResult( int requestCode, int resultCode, Intent data ) { 
     	super.onActivityResult( requestCode, resultCode, data );
@@ -88,16 +112,18 @@ public class MainActivity extends Activity {
     	if ( resultCode == Activity.RESULT_OK ) {    		
     		switch ( requestCode ) {
 	    		case ADD_DRINK_ACTIVITY : {
-			    	ArrayList<Drink> drinks = data.getParcelableArrayListExtra( "drinks" );
-			    	this.l.drink( drinks );    	
+	    			Drink d = (Drink) data.getParcelableExtra( "newDrink" );
+	    			System.out.println( d );
+			    	this.l.drink( d );    	
 			    	break; 
 		    	}
 	    		case SETTINGS_ACTIVITY : {
-	    	        ppBAC.setZoom( data.getIntExtra( "startTime", 0 ),
-	    	        		 	   data.getIntExtra( "endTime", 300 ),
-	    	        		       data.getFloatExtra( "minBAC", 0 ),
-	    	        		       data.getFloatExtra( "maxBAC", 3.0f )
-	    	        		     );
+	    	        this.startTime = data.getIntExtra( "startTime", this.startTime );
+	    	        this.endTime = data.getIntExtra( "endTime", this.endTime );
+	    	        ppBAC.setZoom( this.startTime, this.endTime, 0, 3.0f );
+			    	break; 
+		    	}
+	    		case HISTORY_ACTIVITY : {
 			    	break; 
 		    	}
     		}

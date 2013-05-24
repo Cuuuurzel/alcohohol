@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TimePicker;
 
 public class SettingsActivity extends Activity {
 
@@ -25,11 +26,12 @@ public class SettingsActivity extends Activity {
 	//Pass the new configuration to the main activity and exit
 	public void saveAndExit( View view ) {
 		Intent result = new Intent();
+		TimePicker tmpFrom = (TimePicker) findViewById( R.id.tmpFrom );
+		EditText edtMinutes = (EditText) findViewById( R.id.edtMinutes );
 		//configuration from the form
-		result.putExtra( "startTime", Integer.parseInt( ( (EditText) findViewById( R.id.edtStartTime ) ).getText().toString() ) );
-		result.putExtra( "endTime", Integer.parseInt( ( (EditText) findViewById( R.id.edtEndTime ) ).getText().toString() ) );
-		result.putExtra( "minBAC", Float.parseFloat( ( (EditText) findViewById( R.id.edtMinBAC ) ).getText().toString() ) );
-		result.putExtra( "maxBAC", Float.parseFloat( ( (EditText) findViewById( R.id.edtMaxBAC ) ).getText().toString() ) );
+		int startTime = tmpFrom.getCurrentHour()*60 + tmpFrom.getCurrentMinute();
+		result.putExtra( "startTime", startTime );
+		result.putExtra( "endTime", startTime + Integer.parseInt( edtMinutes.getText().toString() ) );
 		//rest of configuration
 	    setResult( Activity.RESULT_OK, result );
 	    finish();
